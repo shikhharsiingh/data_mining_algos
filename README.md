@@ -7,7 +7,7 @@ run on terminal
 git clone https://github.com/shikhharsiingh/data_mining_algos
 ~~~
 
-<b>Note:</b> Make sure to have numpy installed on your machine
+<b>Note:</b> Make sure to have numpy installed on your machine. (Required in svm.py)
 ~~~
 pip install numpy
 ~~~
