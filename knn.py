@@ -20,7 +20,7 @@ def knn(pts, query, k):
     for row in pts:
         Points.append(point(row[:-2], row[-2], row[-1]))
     for item in Points:
-        item.Print()
+        item._print()
     dists = []
     for i in range(len(Points)):
         dists.append([i,ed.euclidean_dist([Points[i].coords, query])])
