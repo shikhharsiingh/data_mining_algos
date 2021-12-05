@@ -15,8 +15,13 @@ def cdist(pts, i):
 def kmedoid(k, pts):
     l = len(pts)
     c_dists = {}
+
+    # We, first take out the cost of every point from every other point
     for i in range(l):
         c_dists[pts[i][-1]] = cdist(pts, i)
+    # print(c_dists) #To view the different distance of each point from every other point, uncomment
+
+    #Next, we take add the minimum respective costs between every point pair as if they were the assumed medoids
     res = []
     for i in range(l):
         for j in range(i + 1, l):
@@ -24,17 +29,21 @@ def kmedoid(k, pts):
             temp.append(i)
             temp.append(j)
             ans = 0
-            for k in range(l):
-                ans += min(c_dists[i][k], c_dists[j][k])
+            for t in range(l):
+                ans += min(c_dists[i][t], c_dists[j][t])
             temp.append(ans)
             res.append(temp)
     res = sorted(res, key = lambda x: x[2])
+    # print(res)  #To see the different medoid pair costs, uncomment
+
+    # We find the lowest cost medoid pair
     least = res[0]
     medoids = {}
     medoids[least[0]] = []
     medoids[least[1]] = []
     medoids["sum"] = least[2]
 
+    # We make points cluster based on these medoids
     for i in range(l):
         if c_dists[least[0]][i] < c_dists[least[1]][i]:
             medoids[least[0]].append(i)
