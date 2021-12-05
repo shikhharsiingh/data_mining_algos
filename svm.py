@@ -13,19 +13,23 @@ class Point:
 
 def svm(dataset):
     classes = []
+    # List different classes
     for item in dataset:
         if item._class not in classes:
             classes.append(item._class)
-    # print(classes)
+    # Get distances between all points of a class with all from the other
     dists = []
     for i in range(len(dataset)):
         if dataset[i]._class == classes[0]:
             for j in range(i, len(dataset)):
                 if dataset[j]._class == classes[1]:
                     dists.append([i, j, eu.euclidean_dist([dataset[i]._coords, dataset[j]._coords])])
-    # print(dists)
+
+    #Sort the distances
     dists = sorted(dists, key = lambda x : x[2])
-    # print(dists)
+    # print(dists) #To see all the distances, uncomment
+
+    # Get all the points with minimum distance
     ind = 0
     Min = dists[0][2]
     for i in range(1, len(dists)):
@@ -33,6 +37,7 @@ def svm(dataset):
             break
         ind = i
 
+    # Create vector representation
     vecs = []
     for i in range(ind + 1):
         x = dataset[dists[i][0]]._coords.copy()
@@ -47,6 +52,7 @@ def svm(dataset):
         if y not in vecs:
             vecs.append(y)
 
+    # Make equations from the vectors
     eqns = []
     deps = []
     for item in vecs:
@@ -59,8 +65,10 @@ def svm(dataset):
         deps.append(item[-1])
         eqns.append(eqn)
     
+    # Solve the equations
     ans = np.linalg.solve(eqns, deps)
 
+    # Get the equation of hyperplane w
     w = [0] * len(ans)
     for i in range(len(ans)):
         res = np.multiply(vecs[i][:-1], ans[i])
@@ -89,6 +97,7 @@ if __name__ == "__main__":
         item._print()
     w, ans, eqns, vecs = svm(dataset)
     print("w= ", w)
-    print("Nearest Points= (last item is class)", vecs)
-    print("Equations: ", eqns)
-    print("Coeff.s= ", ans)
+    # To the the intermediary results, uncomment the following
+    # print("Nearest Points= (last item is class)", vecs)
+    # print("Equations: ", eqns)
+    # print("Coeff.s= ", ans)
